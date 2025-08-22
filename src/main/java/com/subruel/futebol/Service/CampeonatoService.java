@@ -27,8 +27,8 @@ public class CampeonatoService {
         try {
             con.getEntityManager();
             con.initTransaction();
-            var query = con.getEntityManager().createNamedQuery("Campeonato.findByTime", Time.class);
-            query.setParameter("nomeTime", nomeCampeonato);
+            var query = con.getEntityManager().createNamedQuery("Campeonato.findTimes", Time.class);
+            query.setParameter("nomeCampeonato", nomeCampeonato);
             List<Time> times = query.getResultList();
             con.closeTransaction();
             return times;

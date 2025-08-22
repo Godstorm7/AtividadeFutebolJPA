@@ -14,7 +14,7 @@ public class TecnicoService {
         con = new ConnectionFactory();
     }
 
-    /*public void saveAndUpdate(Tecnico tecnico) {
+    public void saveAndUpdate(Tecnico tecnico) {
         try {
             con.getEntityManager();
             con.initTransaction();
@@ -24,7 +24,7 @@ public class TecnicoService {
         } catch (Exception e) {
             System.out.println("Error while saving or updating tecnico: " + e.getMessage());
         }
-    }*/
+    }
     public List<Jogador> getJogadoresTreinadosPeloTecnico(String nomeTecnico) {
         try {
             con.getEntityManager();

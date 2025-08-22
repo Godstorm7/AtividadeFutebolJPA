@@ -16,7 +16,7 @@ import java.util.Set;
 @Data
 @Builder
 @NamedQueries({
-        @NamedQuery(name = "Campeonato.findByTime", query = "SELECT t FROM Campeonato c JOIN c.times t WHERE t.nome = :nomeTime")
+        @NamedQuery(name = "Campeonato.findTimes", query = "SELECT t FROM Campeonato c JOIN c.times t WHERE c.nome = :nomeCampeonato"),
 })
 public class Campeonato {
 
@@ -24,9 +24,10 @@ public class Campeonato {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String nome;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "campeonato_time",
             joinColumns = @JoinColumn(name = "campeonato_id"),

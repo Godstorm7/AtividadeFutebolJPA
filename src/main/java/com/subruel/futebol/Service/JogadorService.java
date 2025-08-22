@@ -3,6 +3,8 @@ package com.subruel.futebol.Service;
 import com.subruel.futebol.domain.Jogador;
 import com.subruel.futebol.factory.ConnectionFactory;
 
+import java.util.List;
+
 public class JogadorService {
     private ConnectionFactory con;
 
@@ -10,7 +12,7 @@ public class JogadorService {
         con = new ConnectionFactory();
     }
 
-    /*public void saveAndUpdate(Jogador jogador) {
+    public void saveAndUpdate(Jogador jogador) {
         try {
             con.getEntityManager();
             con.initTransaction();
@@ -20,7 +22,7 @@ public class JogadorService {
         } catch (Exception e) {
             System.out.println("Error while saving or updating jogador: " + e.getMessage());
         }
-    }*/
+    }
 
     public Jogador getJogadorByNome(String nomeJogador) {
         try {
@@ -35,28 +37,28 @@ public class JogadorService {
             throw new RuntimeException("Error while fetching jogador by nome: " + e.getMessage());
         }
     }
-    public Jogador getJogadorByStatus(String status) {
+    public List<Jogador> getJogadorByStatus(String status) {
         try {
             con.getEntityManager();
             con.initTransaction();
             var query = con.getEntityManager().createNamedQuery("Jogador.findByStatus", Jogador.class);
             query.setParameter("status", status);
-            Jogador jogador = query.getSingleResult();
+            List<Jogador> jogadores = query.getResultList();
             con.closeTransaction();
-            return jogador;
+            return jogadores;
         } catch (Exception e) {
             throw new RuntimeException("Error while fetching jogador by status: " + e.getMessage());
         }
     }
-    public Jogador getJogadorByTime(String nomeTime) {
+    public List<Jogador> getJogadorByTime(String nomeTime) {
         try {
             con.getEntityManager();
             con.initTransaction();
             var query = con.getEntityManager().createNamedQuery("Jogador.findByTime", Jogador.class);
             query.setParameter("nomeTime", nomeTime);
-            Jogador jogador = query.getSingleResult();
+            List<Jogador> jogadores = query.getResultList();
             con.closeTransaction();
-            return jogador;
+            return jogadores;
         } catch (Exception e) {
             throw new RuntimeException("Error while fetching jogador by time: " + e.getMessage());
         }

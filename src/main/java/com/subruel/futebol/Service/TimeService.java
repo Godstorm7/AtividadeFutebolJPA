@@ -15,7 +15,7 @@ public class TimeService {
         con = new ConnectionFactory();
     }
 
-    /*public void saveAndUpdate(Time time) {
+    public void saveAndUpdate(Time time) {
         try {
             con.getEntityManager();
             con.initTransaction();
@@ -25,7 +25,7 @@ public class TimeService {
         } catch (Exception e) {
             System.out.println("Error while saving or updating time: " + e.getMessage());
         }
-    }*/
+    }
     public List<Time> getTimes() {
         try {
             con.getEntityManager();
@@ -35,6 +35,19 @@ public class TimeService {
             return times;
         } catch (Exception e) {
             throw new RuntimeException("Error while fetching times: " + e.getMessage());
+        }
+    }
+    public Time getTimeByNome(String nome) {
+        try {
+            con.getEntityManager();
+            con.initTransaction();
+            var query = con.getEntityManager().createNamedQuery("Time.findByName", Time.class);
+            query.setParameter("nome", nome);
+            Time time = query.getSingleResult();
+            con.closeTransaction();
+            return time;
+        } catch (Exception e) {
+            throw new RuntimeException("Error while fetching time by name: " + e.getMessage());
         }
     }
     public Time getTimeByJogador(String nomeJogador) {
@@ -50,12 +63,13 @@ public class TimeService {
             throw new RuntimeException("Error while fetching time by jogador: " + e.getMessage());
         }
     }
-    public List<Campeonato> getCampeonatosByTime(){
+    public List<Campeonato> getCampeonatosByTime(String time) {
         try{
             con.getEntityManager();
             con.initTransaction();
             List<Campeonato> campeonatos = con.getEntityManager()
                     .createNamedQuery("Time.findCampeonatos", Campeonato.class)
+                    .setParameter("nomeTime", time)
                     .getResultList();
             con.closeTransaction();
             return campeonatos;

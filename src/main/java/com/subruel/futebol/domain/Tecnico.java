@@ -15,12 +15,14 @@ import lombok.NoArgsConstructor;
         @NamedQuery(name = "Tecnico.findAll",
                 query = "SELECT t FROM Tecnico t"),
         @NamedQuery(name = "Tecnico.findJogadoresTreinadosPeloTecnico",
-                query = "SELECT j FROM Jogador j JOIN j.time t JOIN t.tecnico tec  WHERE tec.nome = :nomeTecnico")
+                query = "SELECT t.jogadores FROM Time t JOIN t.tecnico tec WHERE tec.nome = :nomeTecnico")
 })
 public class Tecnico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
     private String nome;
 }
